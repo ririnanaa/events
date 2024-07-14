@@ -12,7 +12,11 @@
     %header.navbar.navbar-expand-sm.navbar-light.bg-light.container
       = link_to "AwesomeEvents", root_path, class: "navbar-brand mr-auto"
       %ul.navbar-nav
+        %li.nav-item
+          = link_to "イベントを作る", new_event_path, class: "nav-link"
       - if logged_in?
+        %li.nav-item
+          = link_to "退会", new_retirements_path, class: "nav-link"
         %li.nav-item
           = link_to "ログアウト", logout_path, class: "nav-link", method: :delete
       -else    
@@ -22,4 +26,7 @@
       - if flash.notice
         .alert.alert-success
           = flash.notice
+      - if flash.alert
+        .alert.alert-danger
+          = flash.alert
       = yield
