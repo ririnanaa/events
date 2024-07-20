@@ -6,13 +6,24 @@ module SignInHelper
       uid: user.uid,
       info: { nickname: user.name,
             image: user.image_url })
-            
-    visit root_url
-    click_on "GitHubでログイン"
-    @current_user = user
+
+      case
+      when respond_to?(:visit)
+        visit root_url
+        click_on "GitHubでログイン"
+      when respond_to?(:get)
+        get "/auth/github/callback"
+      else
+        raise NotImplementedError.new
+      end
+        @cuurent_user = user
   end
-  
+
   def current_user
     @current_user
   end
+end
+
+class ActionDispatch::IntegrationTest
+  include SignInHelper
 end
